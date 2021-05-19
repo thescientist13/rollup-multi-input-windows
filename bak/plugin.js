@@ -48,11 +48,8 @@ export default ({
     console.debug('normalizedGlobs', normalizedGlobs)
     // flat to enable input to be a string or an array
     // separate globs inputs string from others to enable input to be a mixed array too
-    console.debug('[]', [path.normalize(conf.input.replace(/\\/g, '/'))]);
-    console.debug('flat', [conf.input].flat()[0]);
-    console.debug('partitions', partition([conf.input].flat(), isString));
     const [globs, others] = partition(normalizedGlobs, isString);
-    console.debug('globs', globs.map(glob => path.normalize(glob))); // .replace(/\\\\/g, '\\')));
+    console.debug('globs', globs); // .replace(/\\\\/g, '\\')));
     console.debug('others', others);
     // get files from the globs strings and return as a Rollup entries Object
     const input = Object
@@ -62,7 +59,7 @@ export default ({
           .sync(globs, globOptions)
           .map((name) => {
             console.debug('name', name);
-            const filePath = path.normalize(path.relative(relative, name));
+            const filePath = path.relative(relative, name);
             console.debug('???? filepath', filePath);
             const isRelative = !filePath.startsWith(`..${path.sep}`);
             const relativeFilePath = (isRelative
@@ -79,7 +76,7 @@ export default ({
       );
       // return the new configuration with the glob input and the non string inputs
     
-    console.debug('???? input ', input);
+    console.debug('???? FINAL input ', input);
     return {
       ...conf,
       input,
