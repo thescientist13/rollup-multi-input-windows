@@ -7,11 +7,13 @@ console.log(`inputPath => ${inputPath}`);
 module.exports = {
   input: inputPath,
   output: {
-    dir: path.join(process.cwd(), 'output'),
+    dir: path.join(process.cwd(), 'public'),
     entryFileNames: '[name].[hash].js',
     chunkFileNames: '[name].[hash].js'
   },
   plugins: [
-    multiInput()
+    multiInput({
+      relative: 'app'
+    })
   ]
 };

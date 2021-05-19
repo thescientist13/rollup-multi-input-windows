@@ -9,7 +9,7 @@
   },
   "scripts": {
     "clean": "rimraf ./output",
-    "build": "node ./bundle.js"
+    "build": "rollup -c rollup.config.js"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",
