@@ -1,7 +1,11 @@
 const multiInput = require('rollup-plugin-multi-input').default;
 const path = require('path');
 
-const inputPath = path.join(process.cwd(), 'src', '**/*.js');
+let inputPath = path.join(process.cwd(), 'src', '**/*.js');
+
+// resolves rollup missing options.input validation error
+// inputPath = inputPath.replace(/\\/g, '/');
+
 console.log(`inputPath => ${inputPath}`);
 
 module.exports = {
