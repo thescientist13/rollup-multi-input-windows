@@ -8,7 +8,7 @@
     "url": "git+https://github.com/thescientist13/rollup-multi-input-windows.git"
   },
   "scripts": {
-    "clean": "rimraf ./output",
+    "clean": "rimraf ./public",
     "build": "rollup -c rollup.config.js"
   },
   "devDependencies": {

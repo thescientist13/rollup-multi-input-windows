@@ -1,7 +1,7 @@
 const multiInput = require('rollup-plugin-multi-input').default;
 const path = require('path');
 
-const inputPath = path.join(process.cwd(), 'app', '**/*.js');
+const inputPath = path.join(process.cwd(), 'src', '**/*.js');
 console.log(`inputPath => ${inputPath}`);
 
 module.exports = {
@@ -12,8 +12,6 @@ module.exports = {
     chunkFileNames: '[name].[hash].js'
   },
   plugins: [
-    multiInput({
-      relative: 'app'
-    })
+    multiInput()
   ]
 };
