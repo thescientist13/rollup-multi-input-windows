@@ -1,4 +1,4 @@
-const rollupConfig = require('../rollup.config');
+const rollupConfig = require('./rollup.config');
 const rollup = require('rollup');
 
 async function bundle() {

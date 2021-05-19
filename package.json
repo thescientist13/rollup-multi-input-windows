@@ -7,11 +7,13 @@
     "type": "git",
     "url": "git+https://github.com/thescientist13/rollup-multi-input-windows.git"
   },
-  "dependencies": {
-    "rollup": "~2.34.1",
-    "rollup-plugin-multi-input": "~1.1.1"
-  },
   "scripts": {
-    "build": "node ./bin/bundle.js"
+    "clean": "rimraf ./output",
+    "build": "node ./bundle.js"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.2",
+    "rollup": "^2.34.1",
+    "rollup-plugin-multi-input": "^1.2.0"
   }
 }
