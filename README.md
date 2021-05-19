@@ -52,13 +52,23 @@ While on a Windows machine or [VM](https://developer.microsoft.com/en-us/microso
 
 Compared to running the same steps on macOS (and presumably any *nix based environment), where everything runs as expected.
 ```sh
-TBD
+% npm run build
+
+> rollup-multi-input-windows@1.0.0 build /Users/owenbuckley/Workspace/github/repos/rollup-multi-input-windows
+> rollup -c rollup.config.js
+
+inputPath => /Users/owenbuckley/Workspace/github/repos/rollup-multi-input-windows/src/**/*.js
+
+/Users/owenbuckley/Workspace/github/repos/rollup-multi-input-windows/src/**/*.js → public...
+created public in 32ms
 ```
+
+> You can look in the _bak/_ folder for a working version of plugin.js to copy / paste into your local _node_modules_ to play around with.
 
 ## Root Cause Analysis
 
 ### Observations
-I noticed that if I logged `input`, it would return as an empty object, `{}`
+I noticed that if I logged `input` inside the plugin, it would return as an empty object, `{}`
 ```js
 console.debug('???? input ', input);
 return {
@@ -120,6 +130,44 @@ input: {
 
 As opposed to macOS
 ```sh
+@@@@@@@@@@@ {
+  '.greenwood/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/index.html',
+  '.greenwood/about/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/about/index.html',
+  '.greenwood/docs/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/docs/index.html',
+  '.greenwood/getting-started/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/getting-started/index.html',
+  '.greenwood/guides/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/guides/index.html',
+  '.greenwood/plugins/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/plugins/index.html',
+  '.greenwood/about/community/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/about/community/index.html',
+  '.greenwood/about/features/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/about/features/index.html',
+  '.greenwood/about/goals/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/about/goals/index.html',
+  '.greenwood/about/how-it-works/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/about/how-it-works/index.html',
+  '.greenwood/docs/component-model/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/docs/component-model/index.html',
+  '.greenwood/docs/configuration/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/docs/configuration/index.html',
+  '.greenwood/docs/css-and-images/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/docs/css-and-images/index.html',
+  '.greenwood/docs/data/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/docs/data/index.html',
+  '.greenwood/docs/front-matter/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/docs/front-matter/index.html',
+  '.greenwood/docs/layouts/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/docs/layouts/index.html',
+  '.greenwood/docs/markdown/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/docs/markdown/index.html',
+  '.greenwood/docs/menus/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/docs/menus/index.html',
+  '.greenwood/docs/tech-stack/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/docs/tech-stack/index.html',
+  '.greenwood/getting-started/branding/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/getting-started/branding/index.html',
+  '.greenwood/getting-started/build-and-deploy/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/getting-started/build-and-deploy/index.html',
+  '.greenwood/getting-started/creating-content/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/getting-started/creating-content/index.html',
+  '.greenwood/getting-started/key-concepts/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/getting-started/key-concepts/index.html',
+  '.greenwood/getting-started/next-steps/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/getting-started/next-steps/index.html',
+  '.greenwood/getting-started/project-setup/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/getting-started/project-setup/index.html',
+  '.greenwood/getting-started/quick-start/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/getting-started/quick-start/index.html',
+  '.greenwood/guides/cloudflare-workers-deployment/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/guides/cloudflare-workers-deployment/index.html',
+  '.greenwood/guides/firebase/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/guides/firebase/index.html',
+  '.greenwood/guides/netlify-cms/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/guides/netlify-cms/index.html',
+  '.greenwood/guides/netlify-deploy/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/guides/netlify-deploy/index.html',
+  '.greenwood/guides/now/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/guides/now/index.html',
+  '.greenwood/guides/s3-cloudfront/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/guides/s3-cloudfront/index.html',
+  '.greenwood/plugins/custom-plugins/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/plugins/custom-plugins/index.html',
+  '.greenwood/plugins/resource/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/plugins/resource/index.html',
+  '.greenwood/plugins/rollup/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/plugins/rollup/index.html',
+  '.greenwood/plugins/server/index': '/Users/owenbuckley/Workspace/project-evergreen/repos/greenwood/.greenwood/plugins/server/index.html'
+}
 ```
 </details>
 
@@ -165,9 +213,9 @@ For that small repo everything worked, but back in my own project, I get a new W
 Error: Invalid substitution "..\.greenwood\index" for placeholder "[name]" in "output.entryFileNames" pattern, can be neither absolute nor relative path.
 ```
 
-Reading more on [**fast-glob**](), I realized that the best solution would be just to always make sure `/` is being used for paths and so made that mandatory across the plugin.
+Reading more on [**fast-glob**'s tips for Windows](https://github.com/mrmlnc/fast-glob#how-to-write-patterns-on-windows), I realized that the best solution would be just to always make sure `/` is being used for paths and so made that mandatory across the plugin.
 
-This "fixed" input names as well, like in the above section, it would now be `scripts/user`
+This "fixed" input names as well, like in the above section, it would now be `scripts/user` as they key in `input`.
 ```sh
 input  {
   index: 'C:/Users/IEUser/Workspace/rollup-multi-input-windows/src/index.js',
