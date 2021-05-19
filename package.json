@@ -8,6 +8,8 @@
     "url": "git+https://github.com/thescientist13/rollup-multi-input-windows.git"
   },
   "scripts": {
+    "bak": "cp ./node_modules/rollup-plugin-multi-input/src/plugin.js ./bak",
+    "restore": "cp ./bak/plugin.js ./node_modules/rollup-plugin-multi-input/src",
     "clean": "rimraf ./public",
     "dist": "swc ./node_modules/rollup-plugin-multi-input/src/plugin.js --out-dir ./node_modules/rollup-plugin-multi-input/dist && mv ./node_modules/rollup-plugin-multi-input/dist/rollup-plugin-multi-input/src/plugin.js ./node_modules/rollup-plugin-multi-input/dist",
     "build": "rollup -c rollup.config.js"

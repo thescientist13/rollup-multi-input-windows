@@ -57,9 +57,71 @@ TBD
 
 ## Root Cause Analysis
 
+### Observations
+I noticed that if I logged `input` as such, it would return as an empty object
+```js
+console.debug('???? input ', input);
+return {
+  ...conf,
+  input,
+};
+```
+
+```sh
+???? input  {}
+```
 ### Rollup options.input
 
 My hunch is that this could be related to programatically handling path separators in NodeJS, as I found out recently myself in my [own project](https://github.com/ProjectEvergreen/greenwood/issues/600).
+
+<details>
+For example, here is what the `input` returned from the plugin looks like on Windows on my project
+
+```sh
+input: {
+    '..\\.greenwood\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/index.html',
+    '..\\.greenwood\\about\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/about/index.html',
+    '..\\.greenwood\\docs\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/docs/index.html',
+    '..\\.greenwood\\getting-started\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/getting-started/index.html',
+    '..\\.greenwood\\guides\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/guides/index.html',
+    '..\\.greenwood\\plugins\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/plugins/index.html',
+    '..\\.greenwood\\about\\community\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/about/community/index.html',
+    '..\\.greenwood\\about\\features\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/about/features/index.html',
+    '..\\.greenwood\\about\\goals\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/about/goals/index.html',
+    '..\\.greenwood\\about\\how-it-works\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/about/how-it-works/index.html',
+    '..\\.greenwood\\docs\\component-model\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/docs/component-model/index.html',
+    '..\\.greenwood\\docs\\configuration\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/docs/configuration/index.html',
+    '..\\.greenwood\\docs\\css-and-images\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/docs/css-and-images/index.html',
+    '..\\.greenwood\\docs\\data\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/docs/data/index.html',
+    '..\\.greenwood\\docs\\front-matter\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/docs/front-matter/index.html',
+    '..\\.greenwood\\docs\\layouts\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/docs/layouts/index.html',
+    '..\\.greenwood\\docs\\markdown\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/docs/markdown/index.html',
+    '..\\.greenwood\\docs\\menus\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/docs/menus/index.html',
+    '..\\.greenwood\\docs\\tech-stack\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/docs/tech-stack/index.html',
+    '..\\.greenwood\\getting-started\\branding\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/getting-started/branding/index.html',
+    '..\\.greenwood\\getting-started\\build-and-deploy\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/getting-started/build-and-deploy/index.html',
+    '..\\.greenwood\\getting-started\\creating-content\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/getting-started/creating-content/index.html',
+    '..\\.greenwood\\getting-started\\key-concepts\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/getting-started/key-concepts/index.html',
+    '..\\.greenwood\\getting-started\\next-steps\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/getting-started/next-steps/index.html',
+    '..\\.greenwood\\getting-started\\project-setup\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/getting-started/project-setup/index.html',
+    '..\\.greenwood\\getting-started\\quick-start\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/getting-started/quick-start/index.html',
+    '..\\.greenwood\\guides\\cloudflare-workers-deployment\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/guides/cloudflare-workers-deployment/index.html',
+    '..\\.greenwood\\guides\\firebase\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/guides/firebase/index.html',
+    '..\\.greenwood\\guides\\netlify-cms\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/guides/netlify-cms/index.html',
+    '..\\.greenwood\\guides\\netlify-deploy\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/guides/netlify-deploy/index.html',
+    '..\\.greenwood\\guides\\now\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/guides/now/index.html',
+    '..\\.greenwood\\guides\\s3-cloudfront\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/guides/s3-cloudfront/index.html',
+    '..\\.greenwood\\plugins\\custom-plugins\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/plugins/custom-plugins/index.html',
+    '..\\.greenwood\\plugins\\resource\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/plugins/resource/index.html',
+    '..\\.greenwood\\plugins\\rollup\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/plugins/rollup/index.html',
+    '..\\.greenwood\\plugins\\server\\index': 'C:/Users/IEUser/Workspace/greenwood/.greenwood/plugins/server/index.html'
+  },
+```
+
+As opposed to macOS
+```sh
+```
+</details>
 
 I noticed that if I forced all the path separators to `/` _first_, I could bypass the `options.input` error
 ```js
@@ -79,19 +141,31 @@ module.exports = {
 
 This addresses the immediate and Rollup passes successfully now.
 ```sh
-$ npm run build
-
 > rollup-multi-input-windows@1.0.0 build C:\Users\IEUser\Workspace\rollup-multi-input-windows
 > rollup -c rollup.config.js
 
 inputPath => C:/Users/IEUser/Workspace/rollup-multi-input-windows/src/**/*.js
 
 C:/Users/IEUser/Workspace/rollup-multi-input-windows/src/**/*.js → public...
-created public in 42ms
+@@@@@@ INSIDE PLUGIN options.input @@@@@@@ C:/Users/IEUser/Workspace/rollup-multi-input-windows/src/**/*.js
+globs [ 'C:/Users/IEUser/Workspace/rollup-multi-input-windows/src/**/*.js' ]
+others []
+???? filepath index.js
+???? filepath scripts\user.js
+???? input  {
+  index: 'C:/Users/IEUser/Workspace/rollup-multi-input-windows/src/index.js',
+  'scripts\\user': 'C:/Users/IEUser/Workspace/rollup-multi-input-windows/src/scripts/user.js'
+}
+created public in 75ms
 ```
 
 ### TBD
 This resolves the current issue here, but in my own project, I get a new Windows only error.
+```sh
+# current
+input: 'C:\\Users\\IEUser\\Workspace\\rollup-multi-input-windows\\src\\**\\*.js',
 ```
-TBD
+
+```
+Error: Invalid substitution "..\.greenwood\index" for placeholder "[name]" in "output.entryFileNames" pattern, can be neither absolute nor relative path.
 ```
