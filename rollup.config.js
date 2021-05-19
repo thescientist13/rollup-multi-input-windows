@@ -4,7 +4,7 @@ const path = require('path');
 let inputPath = path.join(process.cwd(), 'src', '**/*.js');
 
 // resolves rollup missing options.input validation error
-// inputPath = inputPath.replace(/\\/g, '/');
+inputPath = inputPath.replace(/\\/g, '/');
 
 console.log(`inputPath => ${inputPath}`);
 

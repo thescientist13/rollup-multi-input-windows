@@ -9,9 +9,12 @@
   },
   "scripts": {
     "clean": "rimraf ./public",
+    "dist": "swc ./node_modules/rollup-plugin-multi-input/src/plugin.js --out-dir ./node_modules/rollup-plugin-multi-input/dist && mv ./node_modules/rollup-plugin-multi-input/dist/rollup-plugin-multi-input/src/plugin.js ./node_modules/rollup-plugin-multi-input/dist",
     "build": "rollup -c rollup.config.js"
   },
   "devDependencies": {
+    "@swc/cli": "^0.1.40",
+    "@swc/core": "^1.2.57",
     "rimraf": "^3.0.2",
     "rollup": "^2.34.1",
     "rollup-plugin-multi-input": "^1.2.0"
